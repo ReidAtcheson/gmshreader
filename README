@@ -1,0 +1,14 @@
+I wrote this .msh file parser out of desire to have a very simple
+C interface into the .msh ASCII file format as described here:
+
+http://www.geuz.org/gmsh/doc/texinfo/#MSH-ASCII-file-format
+
+
+The reader is written with flex and bison and recognizes all
+established elements produced by the GMSH software.
+
+
+This is a work in progress, updated as my needs require them.
+
+-Reid
+reid.atcheson@gmail.com

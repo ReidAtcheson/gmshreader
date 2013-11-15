@@ -1,13 +1,17 @@
 #ifndef GMSH_READER_H_
 #define GMSH_READER_H_
+typedef unsigned long Index;
+typedef double Real;
+
+
 /*Stores element data.*/
 typedef struct{
-	int ie;
-	int	etype;
-	int numtags;
-	int nnodes;
-	int* tags;
-	int* ToV;
+	Index ie;
+	Index	etype;
+	Index numtags;
+	Index nnodes;
+	Index* tags;
+	Index* ToV;
 } gmshelm;
 
 
@@ -52,22 +56,22 @@ typedef struct{
 
 
 gmshelm* read_gmsh_file(const char* filename, 
-		int* n_elements,
-		double** VX_out,
-		double** VY_out, 
-		double** VZ_out, 
-		int* nnodes);
+		Index* n_elements,
+		Real** VX_out,
+		Real** VY_out, 
+		Real** VZ_out, 
+		Index* nnodes);
 
-int get_elements_of_type(int etype, 
-		int ne,
+Index get_elements_of_type(Index etype, 
+		Index ne,
 	 	gmshelm* elm, 
-		int** EToV, 
-		int* nElementsOfType,
-		int* nNodesOfType);
+		Index** EToV, 
+		Index* nElementsOfType,
+		Index* nNodesOfType);
 
 
-int gmshelm_free(gmshelm* elm,int ne);
-int get_nnodes(int elmtag);
+Index gmshelm_free(gmshelm* elm,Index ne);
+Index get_nnodes(Index elmtag);
 
 
 

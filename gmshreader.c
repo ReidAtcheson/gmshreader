@@ -7,8 +7,8 @@
 
 
 
-static inline int get_offset(int nr, int nc, int r, int c);
-int gmshelm_free(gmshelm* elm,int ne);
+static inline Index get_offset(Index nr, Index nc, Index r, Index c);
+Index gmshelm_free(gmshelm* elm,Index ne);
 
 
 
@@ -19,26 +19,26 @@ int gmshelm_free(gmshelm* elm,int ne);
  *@param elms Array of gmesh elements.
  *@param EToV Output element to node connectivity.
  */
-int get_elements_of_type(int etype, int ne, gmshelm* elm, int** EToV, int* nElementsOfType,int* nNodesOfType){
+Index get_elements_of_type(Index etype, Index ne, gmshelm* elm, Index** EToV, Index* nElementsOfType,Index* nNodesOfType){
 	/*Get number of nodes for element type.*/
-	int nnodes = get_nnodes(etype);
+	Index nnodes = get_nnodes(etype);
 
-	int i=0;
-	int ec=0;
+	Index i=0;
+	Index ec=0;
 	/*Do first pass to see how many of type etype there are.*/
 	for(i=0;i<ne;i++)	{
 		if(elm[i].etype==etype)
 			ec++;
 	}
 	/*Allocate contiguous block of memory for EToV.*/
-	*EToV = malloc( nnodes*ec*sizeof(int) );
+	*EToV = malloc( nnodes*ec*sizeof(Index) );
 	/*Now populate EToV.*/
-	int eid=0;
-	int c=0;
+	Index eid=0;
+	Index c=0;
 	for(i=0;i<ne;i++){
 		if(elm[i].etype==etype){
 			for(c=0;c<nnodes;c++){
-				int offset = get_offset(ec,nnodes,eid,c);
+				Index offset = get_offset(ec,nnodes,eid,c);
 				(*EToV)[offset] = elm[i].ToV[c];
 			}
 
@@ -56,8 +56,8 @@ int get_elements_of_type(int etype, int ne, gmshelm* elm, int** EToV, int* nElem
 }
 
 
-int gmshelm_free(gmshelm* elm,int ne){
-	int i=0;
+Index gmshelm_free(gmshelm* elm,Index ne){
+	Index i=0;
 	if(elm!=NULL){
 		for(i=0;i<ne;i++){
 			free(elm[i].tags);
@@ -69,8 +69,8 @@ int gmshelm_free(gmshelm* elm,int ne){
 }
 
 
-int get_nnodes(int elmtag){
-	int out=0;
+Index get_nnodes(Index elmtag){
+	Index out=0;
 	switch (elmtag) { 
 		case LINE_2N:
 			out=2;
@@ -179,7 +179,7 @@ int get_nnodes(int elmtag){
 
 /*Matrix offset calculator.*/
 #define USE_COLUMN_MAJOR
-static inline int get_offset(int nr, int nc, int r, int c){
+static inline Index get_offset(Index nr, Index nc, Index r, Index c){
 
 #ifdef USE_COLUMN_MAJOR
 	return r+c*nr;
